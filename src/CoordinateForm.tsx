@@ -66,15 +66,23 @@ class CoordinateForm extends React.Component<{}, IFormState> {
                 <div style={{ minHeight: "500px" }}>
                     {this.state.valid && this.state.submitted && (
                         <div>
-                            <p>Closest: {closestPairInfo.closestPair[0]},
+                            <p>Closest:
+                                <br />
+                                {closestPairInfo.closestPair[0]},
                                 {closestPairInfo.closestPair[1]}
+                                <br />
+                                &
                                 <br />
                                 {closestPairInfo.closestPair[2]},
                                 {closestPairInfo.closestPair[3]} </p>
                             <p>Distance: {closestPairInfo.distance}</p>
                             <br />
-                            <p>Furthest: {furthestPairInfo.furthestPair[0]},
+                            <p>Furthest:
+                                <br />
+                                {furthestPairInfo.furthestPair[0]},
                                 {furthestPairInfo.furthestPair[1]}
+                                <br />
+                                &
                                 <br />
                                 {furthestPairInfo.furthestPair[2]},
                                 {furthestPairInfo.furthestPair[3]}
