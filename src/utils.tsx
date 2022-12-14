@@ -7,8 +7,8 @@ export type furthestPairInfo = {
     furthestPair: string[], distance: number
 };
 
-
-
+// Calls the various calculators of coordinate pair data
+// Have gone with this approach to make the code more expandable and have clear function names
 export function calculatePairData(coordinatePairs: string[]): {
     closestPairInfo: closestPairInfo,
     furthestPairInfo: furthestPairInfo,
@@ -25,6 +25,7 @@ export function calculatePairData(coordinatePairs: string[]): {
     };
 }
 
+// Calculates closest coordinates pair and returns closestPairInfo object
 export const closestPairCalc = (coordinatePairs: string[]) => {
     let closestPair: string[] = [];
     let closestDistance = Infinity;
@@ -43,6 +44,7 @@ export const closestPairCalc = (coordinatePairs: string[]) => {
     return { closestPair: closestPair, distance: parseFloat((closestDistance).toFixed(2)) }
 }
 
+// Calculates furthest coordinates pair and returns furthestPairInfo object
 export const furthestPairCalc = (coordinatePairs: string[]) => {
     let furthestPair: string[] = [];
     let furthestDistance = 0;
@@ -61,6 +63,7 @@ export const furthestPairCalc = (coordinatePairs: string[]) => {
     return { furthestPair: furthestPair, distance: parseFloat((furthestDistance).toFixed(2)) }
 }
 
+// Calculates average distance and returns number
 export const averageDistanceCalc = (coordinatePairs: string[]) => {
     let totalDistance = 0;
     let count = 0;
@@ -76,6 +79,8 @@ export const averageDistanceCalc = (coordinatePairs: string[]) => {
     return parseFloat((totalDistance / count).toFixed(2));
 }
 
+
+// Validates the string entry to meet acceptance criteria and returns boolean
 export const validation = (coordinates: string) => {
     const formRegex = /^(\d+(?:\.\d+)?,\d+(?:\.\d+)?)(?:\s+(\d+(?:\.\d+)?,\d+(?:\.\d+)?))+$/;
     return formRegex.test(coordinates);

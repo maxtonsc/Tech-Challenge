@@ -34,6 +34,9 @@ class CoordinateForm extends React.Component<{}, IFormState> {
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        // If validated then set state to true and can proceed to calculating pair data
+        // Also sets submittedCoordinates to a collection of values in case we want to keep the
+        // values shown on an error, seems more extendable and clear this way
         if (utils.validation(this.state.coordinates) !== false) {
             this.setState({ valid: true });
             const coordinatePairs = this.state.coordinates.split('\n');
@@ -42,12 +45,19 @@ class CoordinateForm extends React.Component<{}, IFormState> {
         } else {
             this.setState({ valid: false });
         }
-
         this.setState({ submitted: true });
     }
 
 
+
+
     render() {
+        const { submittedCoordinates } = this.state;
+        const {
+            closestPairInfo,
+            furthestPairInfo,
+            averageDistance
+        } = submittedCoordinates;
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>Coordinate Pairs: </label>
@@ -56,23 +66,22 @@ class CoordinateForm extends React.Component<{}, IFormState> {
                 <div style={{ minHeight: "500px" }}>
                     {this.state.valid && this.state.submitted && (
                         <div>
-                            {/* display data here */}
-                            <p>Closest: {this.state.submittedCoordinates.closestPairInfo.closestPair[0]},
-                                {this.state.submittedCoordinates.closestPairInfo.closestPair[1]}
+                            <p>Closest: {closestPairInfo.closestPair[0]},
+                                {closestPairInfo.closestPair[1]}
                                 <br />
-                                {this.state.submittedCoordinates.closestPairInfo.closestPair[2]},
-                                {this.state.submittedCoordinates.closestPairInfo.closestPair[3]} </p>
-                            <p>Distance: {this.state.submittedCoordinates.closestPairInfo.distance}</p>
+                                {closestPairInfo.closestPair[2]},
+                                {closestPairInfo.closestPair[3]} </p>
+                            <p>Distance: {closestPairInfo.distance}</p>
                             <br />
-                            <p>Furthest: {this.state.submittedCoordinates.furthestPairInfo.furthestPair[0]},
-                                {this.state.submittedCoordinates.furthestPairInfo.furthestPair[1]}
+                            <p>Furthest: {furthestPairInfo.furthestPair[0]},
+                                {furthestPairInfo.furthestPair[1]}
                                 <br />
-                                {this.state.submittedCoordinates.furthestPairInfo.furthestPair[2]},
-                                {this.state.submittedCoordinates.furthestPairInfo.furthestPair[3]}
+                                {furthestPairInfo.furthestPair[2]},
+                                {furthestPairInfo.furthestPair[3]}
                             </p>
-                            <p>Distance: {this.state.submittedCoordinates.furthestPairInfo.distance}</p>
+                            <p>Distance: {furthestPairInfo.distance}</p>
                             <br />
-                            <p>Average Distance: {this.state.submittedCoordinates.averageDistance}</p>
+                            <p>Average Distance: {averageDistance}</p>
                             <br />
                         </div>
                     )}
