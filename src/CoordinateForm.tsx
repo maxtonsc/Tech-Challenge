@@ -61,7 +61,7 @@ class CoordinateForm extends React.Component<{}, IFormState> {
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>Coordinate Pairs: </label>
-                <input type="text" name="coordinates" onChange={this.handleChange} />
+                <input aria-label="coordinates entry" type="text" name="coordinates" onChange={this.handleChange} />
                 <input type="submit" value="Submit" />
                 <div style={{ minHeight: "500px" }}>
                     {this.state.valid && this.state.submitted && (
