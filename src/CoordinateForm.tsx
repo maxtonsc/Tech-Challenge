@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { calculatePairData } from './utils';
+import * as utils from './utils';
 
 interface IFormState {
     coordinates: string;
     submitted: boolean;
     valid: boolean;
     submittedCoordinates: {
-        closestPairInfo: { closestPair: string[], distance: number },
-        furthestPairInfo: { furthestPair: string[], distance: number },
+        closestPairInfo: utils.closestPairInfo,
+        furthestPairInfo: utils.furthestPairInfo,
         averageDistance: number,
     }
 }
@@ -34,22 +34,16 @@ class CoordinateForm extends React.Component<{}, IFormState> {
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        this.validation(this.state.coordinates);
-
-        this.setState({ submitted: true });
-    }
-
-    validation = (coordinates: string) => {
-        const formRegex = /^(\d+(?:\.\d+)?,\d+(?:\.\d+)?)(?:\s+(\d+(?:\.\d+)?,\d+(?:\.\d+)?))+$/;
-
-        if (coordinates.match(formRegex)) {
+        if (utils.validation(this.state.coordinates) !== false) {
             this.setState({ valid: true });
-            const coordinatePairs = coordinates.split('\n');
-            const res = calculatePairData(coordinatePairs);
+            const coordinatePairs = this.state.coordinates.split('\n');
+            const res = utils.calculatePairData(coordinatePairs);
             this.setState({ submittedCoordinates: res });
         } else {
             this.setState({ valid: false });
         }
+
+        this.setState({ submitted: true });
     }
 
 

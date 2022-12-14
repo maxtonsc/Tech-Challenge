@@ -1,6 +1,17 @@
+export type closestPairInfo = {
+    closestPair: string[],
+    distance: number
+};
+
+export type furthestPairInfo = {
+    furthestPair: string[], distance: number
+};
+
+
+
 export function calculatePairData(coordinatePairs: string[]): {
-    closestPairInfo: { closestPair: string[], distance: number },
-    furthestPairInfo: { furthestPair: string[], distance: number },
+    closestPairInfo: closestPairInfo,
+    furthestPairInfo: furthestPairInfo,
     averageDistance: number,
 } {
     const splitCoordinates = coordinatePairs[0].split(' ');
@@ -63,4 +74,9 @@ export const averageDistanceCalc = (coordinatePairs: string[]) => {
         }
     }
     return parseFloat((totalDistance / count).toFixed(2));
+}
+
+export const validation = (coordinates: string) => {
+    const formRegex = /^(\d+(?:\.\d+)?,\d+(?:\.\d+)?)(?:\s+(\d+(?:\.\d+)?,\d+(?:\.\d+)?))+$/;
+    return formRegex.test(coordinates);
 }
