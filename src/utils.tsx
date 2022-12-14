@@ -1,4 +1,4 @@
-export default function calculatePairData(coordinatePairs: string[]): {
+export function calculatePairData(coordinatePairs: string[]): {
     closestPairInfo: { closestPair: string[], distance: number },
     furthestPairInfo: { furthestPair: string[], distance: number },
     averageDistance: number,
@@ -14,7 +14,7 @@ export default function calculatePairData(coordinatePairs: string[]): {
     };
 }
 
-const closestPairCalc = (coordinatePairs: string[]) => {
+export const closestPairCalc = (coordinatePairs: string[]) => {
     let closestPair: string[] = [];
     let closestDistance = Infinity;
 
@@ -32,7 +32,7 @@ const closestPairCalc = (coordinatePairs: string[]) => {
     return { closestPair: closestPair, distance: parseFloat((closestDistance).toFixed(2)) }
 }
 
-const furthestPairCalc = (coordinatePairs: string[]) => {
+export const furthestPairCalc = (coordinatePairs: string[]) => {
     let furthestPair: string[] = [];
     let furthestDistance = 0;
 
@@ -50,7 +50,7 @@ const furthestPairCalc = (coordinatePairs: string[]) => {
     return { furthestPair: furthestPair, distance: parseFloat((furthestDistance).toFixed(2)) }
 }
 
-const averageDistanceCalc = (coordinatePairs: string[]) => {
+export const averageDistanceCalc = (coordinatePairs: string[]) => {
     let totalDistance = 0;
     let count = 0;
     for (let i = 0; i < coordinatePairs.length; i++) {
