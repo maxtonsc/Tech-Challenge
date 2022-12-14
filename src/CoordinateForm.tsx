@@ -4,6 +4,7 @@ import calculatePairData from './utils';
 interface IFormState {
     coordinates: string;
     submitted: boolean;
+    valid: boolean;
     submittedCoordinates: {
         closestPairInfo: { closestPair: string[], distance: number },
         furthestPairInfo: { furthestPair: string[], distance: number },
@@ -17,6 +18,7 @@ class CoordinateForm extends React.Component<{}, IFormState> {
         this.state = {
             coordinates: '',
             submitted: false,
+            valid: false,
             submittedCoordinates: {
                 closestPairInfo: { closestPair: [], distance: 0 },
                 furthestPairInfo: { furthestPair: [], distance: 0 },
@@ -25,16 +27,29 @@ class CoordinateForm extends React.Component<{}, IFormState> {
         };
     }
 
-    handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        this.setState({ coordinates: event.target.value });
+    handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ coordinates: event.currentTarget.value });
     }
 
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const coordinatePairs = this.state.coordinates.split('\n');
-        const res = calculatePairData(coordinatePairs);
-        this.setState({ submittedCoordinates: res });
+
+        this.validation(this.state.coordinates);
+
         this.setState({ submitted: true });
+    }
+
+    validation = (coordinates: string) => {
+        const formRegex = /^(\d+(?:\.\d+)?,\d+(?:\.\d+)?)(?:\s+(\d+(?:\.\d+)?,\d+(?:\.\d+)?))+$/;
+
+        if (coordinates.match(formRegex)) {
+            this.setState({ valid: true });
+            const coordinatePairs = coordinates.split('\n');
+            const res = calculatePairData(coordinatePairs);
+            this.setState({ submittedCoordinates: res });
+        } else {
+            this.setState({ valid: false });
+        }
     }
 
 
@@ -43,10 +58,10 @@ class CoordinateForm extends React.Component<{}, IFormState> {
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Coordinate Pairs:
-                    <textarea value={this.state.coordinates} onChange={this.handleChange} />
+                    <input type="text" name="coordinates" onChange={this.handleChange} />
                 </label>
                 <input type="submit" value="Submit" />
-                {this.state.submitted && (
+                {this.state.valid && this.state.submitted && (
                     <div>
                         {/* display data here */}
                         <p>Closest: {this.state.submittedCoordinates.closestPairInfo.closestPair[0]},
@@ -66,6 +81,13 @@ class CoordinateForm extends React.Component<{}, IFormState> {
                         <br />
                         <p>Average Distance: {this.state.submittedCoordinates.averageDistance}</p>
                         <br />
+                    </div>
+                )}
+                {!this.state.valid && this.state.submitted && (
+                    <div>
+                        <p>Invalid input</p>
+                        <p>try submitting a string such as</p>
+                        <p>0,1.234 3,8 4,3 10,13</p>
                     </div>
                 )}
             </form>
